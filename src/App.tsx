@@ -9,8 +9,6 @@ function App() {
   // const AWS = require("aws-sdk");
 
   // AWS.config.update({
-  //   accessKeyId: "AKIAVJONIWT7YRVZSRFQ",
-  //   secretAccessKey: "RilG6n/cayzRq4rln0P/6BICGN6vN8ITNke0Bb4H",
   //   region: "ap-south-1", // e.g., 'us-east-1'
   // });
 
