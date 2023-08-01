@@ -4,8 +4,6 @@ import { Notifications } from "react-push-notification";
 import addNotification from "react-push-notification";
 
 function App() {
-  const express = require("express");
-  const bodyParser = require("body-parser");
   const AWS = require("aws-sdk");
 
   AWS.config.update({
