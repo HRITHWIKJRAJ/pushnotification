@@ -10,11 +10,14 @@ function App() {
 
   AWS.config.update({
     region: "ap-south-1", // e.g., 'us-east-1'
+    accessKeyId: process.env.access_key,
+    secretAccessKey: process.env.access_secret,
   });
 
   const sns = new AWS.SNS();
 
   const buttonClick = () => {
+    console.log(process.env.access_key , process.env.access_secret);
     addNotification({
       title: "Warning",
       subtitle: "This is a subtitle",
