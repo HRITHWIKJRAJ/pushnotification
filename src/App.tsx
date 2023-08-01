@@ -15,7 +15,7 @@ function App() {
   const sns = new AWS.SNS();
 
   const buttonClick = () => {
-    console.log(process.env.access_key , process.env.access_secret);
+    console.log(process.env.REACT_APP_ACCESS_KEY , process.env.REACT_APP_ACCESS_SECRET);
     addNotification({
       title: "Warning",
       subtitle: "This is a subtitle",
