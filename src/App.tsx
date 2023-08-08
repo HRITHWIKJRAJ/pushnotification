@@ -1,15 +1,16 @@
 import React from "react";
 import "./App.css";
-import { Notifications } from "react-push-notification";
-import addNotification from "react-push-notification";
 
 function App() {
 
 
-  Notification.requestPermission((status) =>{
-    console.log("permission status: ",status)
-  });
+  function request(){
 
+    Notification.requestPermission((status) =>{
+      console.log("permission status: ",status)
+    });
+  }
+    
 
   function displayNotification(){
     const options = {
@@ -22,9 +23,6 @@ function App() {
       });
     }
   }
-
-
-  displayNotification();
 
 
   const buttonClick = () => {
@@ -43,8 +41,10 @@ function App() {
   return (
     <div>
       <div className="App">
-        <button onClick={buttonClick}>send notification</button>
-        <Notifications />
+        <button onClick={buttonClick}>Request Permission</button>
+      </div>
+      <div className="App">
+        <button onClick={request}>send notification</button>
       </div>
     </div>
   );
