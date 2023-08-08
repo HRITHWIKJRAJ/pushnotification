@@ -13,7 +13,7 @@ function App() {
 
   function displayNotification(){
     const options = {
-      body:'notification body',
+      body:'notification  body',
       vibrate:[100,50,100]
     }
     if (Notification.permission === 'granted') {
