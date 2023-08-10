@@ -17,7 +17,7 @@ function App() {
 
     let push = await sw.pushManager.subscribe({
       userVisibleOnly:true,
-      applicationServerKey: process.env.app_server_key
+      applicationServerKey: process.env.SERVER_KEY
     });
     console.log(JSON.stringify(push));
   }
