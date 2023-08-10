@@ -5,12 +5,9 @@ function App() {
 
 
   function request(){
-    console.log(process.env.SERVER_KEY);
-    
 
     Notification.requestPermission((status) =>{
       console.log("permission status: ",status)
-      console.log(process.env.REACT_APP_ACCESS_KEY , process.env.REACT_APP_ACCESS_SECRET);
 
     });    
     subscribeNotification();
@@ -21,7 +18,7 @@ function App() {
 
     let push = await sw.pushManager.subscribe({
       userVisibleOnly:true,
-      applicationServerKey: process.env.SERVER_KEY
+      applicationServerKey: process.env.REACT_APP_SERVER_KEY
     });
     console.log(JSON.stringify(push));
   }
