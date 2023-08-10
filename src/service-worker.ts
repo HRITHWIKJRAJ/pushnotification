@@ -76,5 +76,14 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
+const options = {
+  body:'notification  body',
+  vibrate:[100,50,100]
+}
+self.addEventListener('push', function(event) {
+  console.log(event);
+  self.registration.showNotification("hi world",options);
+});
+
 
 // Any other custom service worker logic can go here.
