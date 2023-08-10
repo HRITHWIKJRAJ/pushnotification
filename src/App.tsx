@@ -8,7 +8,18 @@ function App() {
 
     Notification.requestPermission((status) =>{
       console.log("permission status: ",status)
+    });    
+    subscribeNotification();
+  }
+
+  async function subscribeNotification() {
+    let sw = await navigator.serviceWorker.ready;
+
+    let push = await sw.pushManager.subscribe({
+      userVisibleOnly:true,
+      applicationServerKey: process.env.app_server_key
     });
+    console.log(JSON.stringify(push));
   }
     
 
@@ -20,7 +31,7 @@ function App() {
     if (Notification.permission === 'granted') {
       navigator.serviceWorker.getRegistration().then( reg => {
         reg?.showNotification('Hello World',options);
-      });
+      }); 
     }
   }
 
@@ -41,10 +52,10 @@ function App() {
   return (
     <div>
       <div className="App">
-        <button onClick={buttonClick}>Request Permission</button>
+        <button onClick={buttonClick}>send notification</button>
       </div>
       <div className="App">
-        <button onClick={request}>send notification</button>
+        <button onClick={request}>Subscribe</button>
       </div>
     </div>
   );
