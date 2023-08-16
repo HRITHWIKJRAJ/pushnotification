@@ -85,5 +85,10 @@ self.addEventListener('push', function(event) {
   self.registration.showNotification("hi world",options);
 });
 
+self.addEventListener('SubscriptionConfirmation', function(event) {
+  console.log(event);
+  self.registration.showNotification("hi world",options);
+});
+
 
 // Any other custom service worker logic can go here.
