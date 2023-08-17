@@ -31,7 +31,7 @@ function App() {
 
     let push = await sw.pushManager.subscribe({
       userVisibleOnly:true,
-      applicationServerKey: process.env.REACT_APP_SERVER_KEY
+      applicationServerKey: urlB64ToUint8Array(process.env.REACT_APP_SERVER_KEY?process.env.REACT_APP_SERVER_KEY:"")
     });
     endpoint = push.endpoint;
     console.log(JSON.stringify(push));
@@ -48,6 +48,19 @@ function App() {
         reg?.showNotification('Hello World',options);
       }); 
     }
+  }
+
+  function urlB64ToUint8Array(base64String: string) {
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    console.log("output : ", outputArray);
+    
+    return outputArray;
   }
 
 
