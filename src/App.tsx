@@ -1,70 +1,71 @@
 import React from "react";
 import "./App.css";
-import AWS from 'aws-sdk';
+import AWS from "aws-sdk";
 
 function App() {
-
   let creds = {
-    accessKey : process.env.REACT_APP_ACCESS_KEY ? process.env.REACT_APP_ACCESS_KEY : "",
-    accessSecret : process.env.REACT_APP_ACCESS_SECRET ? process.env.REACT_APP_ACCESS_SECRET : ""
-  }
-  
+    accessKey: process.env.REACT_APP_ACCESS_KEY
+      ? process.env.REACT_APP_ACCESS_KEY
+      : "",
+    accessSecret: process.env.REACT_APP_ACCESS_SECRET
+      ? process.env.REACT_APP_ACCESS_SECRET
+      : "",
+  };
+
   let endpoint = "";
 
   AWS.config.update({
-    region: 'ap-south-1', // Replace with your AWS region (e.g., 'us-east-1')
-    credentials: new AWS.Credentials(creds.accessKey, creds.accessSecret) // Replace with your AWS credentials
+    region: "ap-south-1", // Replace with your AWS region (e.g., 'us-east-1')
+    credentials: new AWS.Credentials(creds.accessKey, creds.accessSecret), // Replace with your AWS credentials
   });
 
-
-  function request(){
-    Notification.requestPermission((status) =>{
-      console.log("permission status: ",status)
-
-    });    
+  function request() {
+    Notification.requestPermission((status) => {
+      console.log("permission status: ", status);
+    });
     subscribeNotification();
   }
 
   async function subscribeNotification() {
     let sw = await navigator.serviceWorker.ready;
-    
 
     let push = await sw.pushManager.subscribe({
-      userVisibleOnly:true,
-      applicationServerKey: process.env.REACT_APP_SERVER_KEY?process.env.REACT_APP_SERVER_KEY:""
+      userVisibleOnly: true,
+      applicationServerKey: process.env.REACT_APP_SERVER_KEY
+        ? process.env.REACT_APP_SERVER_KEY
+        : "",
     });
     console.log(JSON.stringify(push));
   }
-    
 
-  function displayNotification(){
+  function displayNotification() {
     const options = {
-      body:'notification  body',
-      vibrate:[100,50,100]
-    }
-    if (Notification.permission === 'granted') {
-      navigator.serviceWorker.getRegistration().then( reg => {
-        reg?.showNotification('Hello World',options);
-      }); 
+      body: "notification  body",
+      vibrate: [100, 50, 100],
+    };
+    if (Notification.permission === "granted") {
+      navigator.serviceWorker.getRegistration().then((reg) => {
+        reg?.showNotification("Hello World", options);
+      });
     }
   }
 
   function urlB64ToUint8Array(base64String: string) {
-    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-    const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, "+")
+      .replace(/_/g, "/");
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
     for (let i = 0; i < rawData.length; ++i) {
       outputArray[i] = rawData.charCodeAt(i);
     }
     console.log("output : ", outputArray);
-    
+
     return outputArray;
   }
 
-
   const buttonClick = () => {
-    
     displayNotification();
     // console.log(process.env.REACT_APP_ACCESS_KEY , process.env.REACT_APP_ACCESS_SECRET);
     // addNotification({
@@ -78,20 +79,20 @@ function App() {
 
   const subscribeSns = () => {
     var params = {
-      Protocol: 'HTTPS', /* required */
-      TopicArn: 'arn:aws:sns:ap-south-1:363892094207:testTopic', /* required */
-      Endpoint: endpoint
+      Protocol: "HTTPS" /* required */,
+      TopicArn: "arn:aws:sns:ap-south-1:363892094207:testTopic" /* required */,
+      Endpoint: endpoint,
     };
     var subscribePromise = new AWS.SNS().subscribe(params).promise();
 
     // Handle promise's fulfilled/rejected states
-    subscribePromise.then(
-      function(data) {
+    subscribePromise
+      .then(function (data) {
         console.log("Subscription ARN is " + data.SubscriptionArn);
-      }).catch(
-        function(err) {
+      })
+      .catch(function (err) {
         console.error(err, err.stack);
-      });    
+      });
   };
 
   return (
