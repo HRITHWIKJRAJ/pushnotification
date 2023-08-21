@@ -18,7 +18,6 @@ function App() {
 
 
   function request(){
-
     Notification.requestPermission((status) =>{
       console.log("permission status: ",status)
 
@@ -28,12 +27,12 @@ function App() {
 
   async function subscribeNotification() {
     let sw = await navigator.serviceWorker.ready;
+    
 
     let push = await sw.pushManager.subscribe({
       userVisibleOnly:true,
-      applicationServerKey: urlB64ToUint8Array(process.env.REACT_APP_SERVER_KEY?process.env.REACT_APP_SERVER_KEY:"")
+      applicationServerKey: process.env.REACT_APP_SERVER_KEY?process.env.REACT_APP_SERVER_KEY:""
     });
-    endpoint = push.endpoint;
     console.log(JSON.stringify(push));
   }
     
